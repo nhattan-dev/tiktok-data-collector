@@ -1,13 +1,11 @@
 package service.impl;
 
-import entity.Ad;
-import response.AdResponse;
-import utils.APIUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.impl.CampaignDAO;
 import entity.Campaign;
 import response.CampaignResponse;
 import service.CampaignService;
+import utils.APIUtils;
 import utils.ObjectMapperUtils;
 import utils.ReadFileUtils;
 
