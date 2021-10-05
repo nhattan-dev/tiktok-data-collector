@@ -13,3 +13,5 @@
   * [Restore File](./dump-tiktok_data_collector-202110051036.sql)
   * [Connection String](./src/main/resources/META-INF/persistence.xml)
   
+**4.Other**
+  * [URL](./src/main/resources/url.properties)
