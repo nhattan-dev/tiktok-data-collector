@@ -10,6 +10,6 @@
   * PostgresSQL
   
 **3.Database**
-  * [DDL](./tiktok_data_collector.txt)
+  * [Restore File](./dump-tiktok_data_collector-202110051036.sql)
   * [Connection String](./src/main/resources/META-INF/persistence.xml)
   
