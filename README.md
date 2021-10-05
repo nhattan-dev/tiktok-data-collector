@@ -10,4 +10,6 @@
   * PostgresSQL
   
 Database
+  * [DDL](./tiktok_data_collector.txt)
+  * [Connection String](./)
   
