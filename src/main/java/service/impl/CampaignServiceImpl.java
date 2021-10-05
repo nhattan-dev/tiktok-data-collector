@@ -1,21 +1,18 @@
 package service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.impl.CampaignDAO;
 import entity.Campaign;
+import exception.CustomRuntimeException;
 import response.CampaignResponse;
-import service.CampaignService;
-import utils.APIUtils;
-import utils.ObjectMapperUtils;
+import service.AbstractService;
+import service.Service;
 import utils.ReadFileUtils;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class CampaignServiceImpl implements CampaignService {
-    private static final long PAGE_SIZE = 20;
+public class CampaignServiceImpl extends AbstractService<Campaign, CampaignResponse> implements Service {
     private static CampaignServiceImpl service;
 
     private CampaignServiceImpl() {
@@ -28,34 +25,34 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public void readData(String accessToken, String advertiser_id) {
-        try {
-            String url = ReadFileUtils.getPropValues("url.properties", "campaign-url");
-            List<Campaign> campaigns = getCampaignList(advertiser_id, accessToken, url);
-            CampaignDAO dao = CampaignDAO.getInstance();
-            dao.save(campaigns);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected String url() {
+        return ReadFileUtils.getPropValues("url.properties", "campaign-url");
     }
 
-    private List<Campaign> getCampaignList(String advertiser_id, String accessToken, String url) {
-        int currentPage = 1;
-        int totalPage = 1;
-        List<Campaign> result = new ArrayList<>();
-        ObjectMapper mapper = ObjectMapperUtils.getInstance();
-        do {
-            String args = String.format("{\"advertiser_id\": \"%s\", \"page_size\": \"%s\", \"page\": \"%s\"}"
-                    , advertiser_id, PAGE_SIZE, currentPage);
-            try {
-                CampaignResponse response = mapper.readValue(APIUtils.get(args, url, accessToken), CampaignResponse.class);
-                totalPage = response.getCampaignList().getPage_info().getTotal_page();
-                result.addAll(response.getCampaignList().getCampaigns());
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-            currentPage++;
-        } while (currentPage <= totalPage);
-        return result;
+    @Override
+    protected CampaignResponse convert(ObjectMapper mapper, String responseString) {
+        try {
+            return mapper.readValue(responseString, CampaignResponse.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        throw new CustomRuntimeException("Convert to CampaignResponse failure.");
+    }
+
+    @Override
+    protected int getTotalPage(CampaignResponse response) {
+        return response.getCampaignList().getPage_info().getTotal_page();
+    }
+
+    @Override
+    protected List<Campaign> getList(CampaignResponse response) {
+        return response.getCampaignList().getCampaigns();
+    }
+
+    @Override
+    public void readData(String accessToken, String advertiser_id) {
+        List<Campaign> campaigns = getList(advertiser_id, accessToken);
+        CampaignDAO dao = CampaignDAO.getInstance();
+        dao.save(campaigns);
     }
 }

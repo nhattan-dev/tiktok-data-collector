@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class AdgroupResponse {
+public class AdGroupResponse {
     @JsonProperty("message")
     private String message;
     @JsonProperty("code")

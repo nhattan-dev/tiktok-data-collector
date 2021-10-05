@@ -1,22 +1,18 @@
 package service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.impl.AdDAO;
 import entity.Ad;
-import exception.PropertiesNotFoundException;
+import exception.CustomRuntimeException;
 import response.AdResponse;
-import service.AdService;
-import utils.APIUtils;
-import utils.ObjectMapperUtils;
+import service.AbstractService;
+import service.Service;
 import utils.ReadFileUtils;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class AdServiceImpl implements AdService {
-    private static final long PAGE_SIZE = 20;
+public class AdServiceImpl extends AbstractService<Ad, AdResponse> implements Service {
     private static AdServiceImpl service;
 
     private AdServiceImpl() {
@@ -29,34 +25,34 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public void readData(String accessToken, String advertiser_id) {
-        try {
-            String url = ReadFileUtils.getPropValues("url.properties", "ad-url");
-            List<Ad> ads = getAdList(advertiser_id, accessToken, url);
-            AdDAO dao = AdDAO.getInstance();
-            dao.save(ads);
-        } catch (IOException | PropertiesNotFoundException e) {
-            e.printStackTrace();
-        }
+    protected String url() {
+        return ReadFileUtils.getPropValues("url.properties", "ad-url");
     }
 
-    private List<Ad> getAdList(String advertiser_id, String accessToken, String url) {
-        int currentPage = 1;
-        int totalPage = 1;
-        List<Ad> result = new ArrayList<>();
-        ObjectMapper mapper = ObjectMapperUtils.getInstance();
-        do {
-            String args = String.format("{\"advertiser_id\": \"%s\", \"page_size\": \"%s\", \"page\": \"%s\"}"
-                    , advertiser_id, PAGE_SIZE, currentPage);
-            try {
-                AdResponse response = mapper.readValue(APIUtils.get(args, url, accessToken), AdResponse.class);
-                totalPage = response.getAdList().getPage_info().getTotal_page();
-                result.addAll(response.getAdList().getAds());
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-            currentPage++;
-        } while (currentPage <= totalPage);
-        return result;
+    @Override
+    protected AdResponse convert(ObjectMapper mapper, String responseString) {
+        try {
+            return mapper.readValue(responseString, AdResponse.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        throw new CustomRuntimeException("Convert to AdResponse failure.");
+    }
+
+    @Override
+    protected int getTotalPage(AdResponse response) {
+        return response.getAdList().getPage_info().getTotal_page();
+    }
+
+    @Override
+    protected List<Ad> getList(AdResponse response) {
+        return response.getAdList().getAds();
+    }
+
+    @Override
+    public void readData(String accessToken, String advertiser_id) {
+        List<Ad> ads = getList(advertiser_id, accessToken);
+        AdDAO dao = AdDAO.getInstance();
+        dao.save(ads);
     }
 }

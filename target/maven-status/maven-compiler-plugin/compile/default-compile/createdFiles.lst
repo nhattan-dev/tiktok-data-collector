@@ -1,4 +1,5 @@
 service\AdGroupService.class
+exception\CustomRuntimeException.class
 service\CampaignService.class
 service\impl\AdGroupServiceImpl.class
 dao\impl\CampaignDAO.class
@@ -12,16 +13,13 @@ service\impl\CampaignServiceImpl.class
 dao\impl\AdDAO.class
 utils\APIUtils.class
 dao\AbstractDAO.class
-exception\PropertiesNotFoundException.class
 main.class
-dao\DAO.class
-dao\AdGroupDAO.class
 service\AdService.class
 dao\impl\AdGroupDAO.class
 entity\Ad.class
-dao\CampaignDAO.class
 service\impl\AdServiceImpl.class
 entity\Campaign.class
+service\AbstractService.class
 response\AdList.class
 response\AdGroupList.class
-dao\AdDAO.class
+exception\PropertiesNotFoundExceptionCustom.class

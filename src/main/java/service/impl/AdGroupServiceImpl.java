@@ -1,21 +1,18 @@
 package service.impl;
 
-import utils.APIUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.impl.AdGroupDAO;
 import entity.AdGroup;
-import response.AdgroupResponse;
-import service.AdGroupService;
-import utils.ObjectMapperUtils;
+import exception.CustomRuntimeException;
+import response.AdGroupResponse;
+import service.AbstractService;
+import service.Service;
 import utils.ReadFileUtils;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class AdGroupServiceImpl<T> implements AdGroupService {
-    private static final long PAGE_SIZE = 20;
+public class AdGroupServiceImpl extends AbstractService<AdGroup, AdGroupResponse> implements Service {
     private static AdGroupServiceImpl service;
 
     private AdGroupServiceImpl() {
@@ -28,34 +25,34 @@ public class AdGroupServiceImpl<T> implements AdGroupService {
     }
 
     @Override
-    public void readData(String accessToken, String advertiser_id) {
-        try {
-            String url = ReadFileUtils.getPropValues("url.properties", "adgroup-url");
-            List<AdGroup> adGroups = getAdGroupList(advertiser_id, accessToken, url);
-            AdGroupDAO dao = AdGroupDAO.getInstance();
-            dao.save(adGroups);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected String url() {
+        return ReadFileUtils.getPropValues("url.properties", "adgroup-url");
     }
 
-    private List<AdGroup> getAdGroupList(String advertiser_id, String accessToken, String url) {
-        int currentPage = 1;
-        int totalPage = 1;
-        List<AdGroup> result = new ArrayList<>();
-        ObjectMapper mapper = ObjectMapperUtils.getInstance();
-        do {
-            String args = String.format("{\"advertiser_id\": \"%s\", \"page_size\": \"%s\", \"page\": \"%s\"}"
-                    , advertiser_id, PAGE_SIZE, currentPage);
-            try {
-                AdgroupResponse response = mapper.readValue(APIUtils.get(args, url, accessToken), AdgroupResponse.class);
-                totalPage = response.getAdGroupList().getPage_info().getTotal_page();
-                result.addAll(response.getAdGroupList().getAdGroups());
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-            currentPage++;
-        } while (currentPage <= totalPage);
-        return result;
+    @Override
+    protected AdGroupResponse convert(ObjectMapper mapper, String responseString) {
+        try {
+            return mapper.readValue(responseString, AdGroupResponse.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        throw new CustomRuntimeException("Convert to AdGroupResponse failure.");
+    }
+
+    @Override
+    protected int getTotalPage(AdGroupResponse response) {
+        return response.getAdGroupList().getPage_info().getTotal_page();
+    }
+
+    @Override
+    protected List<AdGroup> getList(AdGroupResponse response) {
+        return response.getAdGroupList().getAdGroups();
+    }
+
+    @Override
+    public void readData(String accessToken, String advertiser_id) {
+        List<AdGroup> adGroups = getList(advertiser_id, accessToken);
+        AdGroupDAO dao = AdGroupDAO.getInstance();
+        dao.save(adGroups);
     }
 }

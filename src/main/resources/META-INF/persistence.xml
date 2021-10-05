@@ -12,7 +12,7 @@
             <property name="hibernate.connection.url"
                       value="jdbc:postgresql://localhost:5432/tiktok_data_collector?user=postgres&amp;password=sa"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.show_sql" value="true"/>
+<!--            <property name="hibernate.show_sql" value="true"/>-->
 
             <!-- JDBC connection pool (use the built-in) -->
             <property name="connection.pool_size" value="4"/>

@@ -10,7 +10,7 @@ public class ReadFileUtils {
     private ReadFileUtils() {
     }
 
-    public static String getPropValues(String fileName, String propertyName) throws IOException {
+    public static String getPropValues(String fileName, String propertyName) {
         InputStream inputStream = null;
         try {
             Properties prop = new Properties();
@@ -23,9 +23,14 @@ public class ReadFileUtils {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         } finally {
-            if (inputStream != null)
-                inputStream.close();
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return "";
+        return null;
     }
 }
