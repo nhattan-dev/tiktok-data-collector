@@ -9,7 +9,7 @@
   * Maven
   * PostgresSQL
   
-Database
+**3.Database**
   * [DDL](./tiktok_data_collector.txt)
-  * [Connection String](./)
+  * [Connection String](./src/main/resources/META-INF/persistence.xml)
   
