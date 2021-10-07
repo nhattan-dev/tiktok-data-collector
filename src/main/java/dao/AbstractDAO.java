@@ -15,12 +15,11 @@ public abstract class AbstractDAO<T> {
         for (int i = 0; i < ts.size(); i++) {
             em.merge(ts.get(i));
             if (i % batchSize == 0 && i != ts.size()) {
-//                System.out.println(" Flush a batch of INSERT & release memory: {" + (i / batchSize) + "} time(s)");
                 em.flush();
                 em.clear();
             }
         }
-//        System.out.println("Flush the last time at commit time");
         em.getTransaction().commit();
+        System.out.printf("Successfully saved %s records%n", ts.size());
     }
 }

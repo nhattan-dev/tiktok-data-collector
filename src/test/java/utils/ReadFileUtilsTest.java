@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReadFileUtilsTest {
 
     @Test
-    void getPropValues_then_return_value() throws IOException {
+    void getPropValues_then_return_value() {
         String fileName = "test.properties";
         String propertyName = "test";
         String expect = "properties";
@@ -18,7 +18,7 @@ class ReadFileUtilsTest {
     }
 
     @Test
-    void getPropValues_with_not_exists_property_then_return_null() throws IOException {
+    void getPropValues_with_not_exists_property_then_return_null() {
         String fileName = "test.properties";
         String propertyName = "not-exist-property";
         String result = ReadFileUtils.getPropValues(fileName, propertyName);
@@ -26,7 +26,7 @@ class ReadFileUtilsTest {
     }
 
     @Test
-    void getPropValues_with_not_exists_file_then_return_null() throws IOException {
+    void getPropValues_with_not_exists_file_then_return_null() {
         String fileName = "not-exist-property.properties";
         String propertyName = "test";
         String result = ReadFileUtils.getPropValues(fileName, propertyName);

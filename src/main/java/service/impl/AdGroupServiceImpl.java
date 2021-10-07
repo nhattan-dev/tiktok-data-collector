@@ -7,12 +7,12 @@ import entity.AdGroup;
 import exception.CustomRuntimeException;
 import response.AdGroupResponse;
 import service.AbstractService;
-import service.Service;
+import service.AdGroupService;
 import utils.ReadFileUtils;
 
 import java.util.List;
 
-public class AdGroupServiceImpl extends AbstractService<AdGroup, AdGroupResponse> implements Service {
+public class AdGroupServiceImpl extends AbstractService<AdGroup, AdGroupResponse> implements AdGroupService {
     private static AdGroupServiceImpl service;
 
     private AdGroupServiceImpl() {

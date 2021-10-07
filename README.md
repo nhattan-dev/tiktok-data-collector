@@ -1,7 +1,7 @@
 # tiktok-data-collector
 
 **1.Installation**
-  >mvn compile exec:java -Dexec.mainClass=main -Dexec.cleanupDaemonThreads=false -Dexec.args="advertiser_id access_token"
+  >mvn compile exec:java -Dexec.mainClass=Application -Dexec.cleanupDaemonThreads=false -Dexec.args="advertiser_id access_token"
   
 **2.Built With**
   * Hibernate

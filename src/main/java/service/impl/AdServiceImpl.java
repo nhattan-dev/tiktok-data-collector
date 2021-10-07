@@ -7,12 +7,12 @@ import entity.Ad;
 import exception.CustomRuntimeException;
 import response.AdResponse;
 import service.AbstractService;
-import service.Service;
+import service.AdService;
 import utils.ReadFileUtils;
 
 import java.util.List;
 
-public class AdServiceImpl extends AbstractService<Ad, AdResponse> implements Service {
+public class AdServiceImpl extends AbstractService<Ad, AdResponse> implements AdService {
     private static AdServiceImpl service;
 
     private AdServiceImpl() {

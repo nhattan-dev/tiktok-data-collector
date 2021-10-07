@@ -9,11 +9,11 @@ utils\ReadFileUtils.class
 service\Service.class
 entity\AdGroup.class
 utils\HibernateUtils.class
+Application.class
 service\impl\CampaignServiceImpl.class
 dao\impl\AdDAO.class
 utils\APIUtils.class
 dao\AbstractDAO.class
-main.class
 service\AdService.class
 dao\impl\AdGroupDAO.class
 entity\Ad.class

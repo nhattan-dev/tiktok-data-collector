@@ -7,12 +7,12 @@ import entity.Campaign;
 import exception.CustomRuntimeException;
 import response.CampaignResponse;
 import service.AbstractService;
-import service.Service;
+import service.CampaignService;
 import utils.ReadFileUtils;
 
 import java.util.List;
 
-public class CampaignServiceImpl extends AbstractService<Campaign, CampaignResponse> implements Service {
+public class CampaignServiceImpl extends AbstractService<Campaign, CampaignResponse> implements CampaignService {
     private static CampaignServiceImpl service;
 
     private CampaignServiceImpl() {
