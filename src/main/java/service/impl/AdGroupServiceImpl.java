@@ -35,8 +35,8 @@ public class AdGroupServiceImpl extends AbstractService<AdGroup, AdGroupResponse
             return mapper.readValue(responseString, AdGroupResponse.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            throw new CustomRuntimeException("Convert to AdGroupResponse failure.");
         }
-        throw new CustomRuntimeException("Convert to AdGroupResponse failure.");
     }
 
     @Override

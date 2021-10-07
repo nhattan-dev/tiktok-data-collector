@@ -1,0 +1,9 @@
+dao\impl\CampaignDAOTest.class
+dao\impl\AdDAOTest.class
+dao\AbstractDAOTest.class
+utils\APIUtilsTest.class
+service\impl\AdGroupServiceImplTest.class
+utils\HibernateUtilsTest.class
+utils\ReadFileUtilsTest.class
+utils\ObjectMapperUtilsTest.class
+dao\impl\AdGroupDAOTest.class

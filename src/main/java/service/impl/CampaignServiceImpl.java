@@ -35,8 +35,8 @@ public class CampaignServiceImpl extends AbstractService<Campaign, CampaignRespo
             return mapper.readValue(responseString, CampaignResponse.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            throw new CustomRuntimeException("Convert to CampaignResponse failure.");
         }
-        throw new CustomRuntimeException("Convert to CampaignResponse failure.");
     }
 
     @Override

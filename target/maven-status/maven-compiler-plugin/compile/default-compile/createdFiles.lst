@@ -1,9 +1,12 @@
 service\AdGroupService.class
+response\CampaignResponse.class
 exception\CustomRuntimeException.class
 service\CampaignService.class
 service\impl\AdGroupServiceImpl.class
+response\AdResponse.class
 dao\impl\CampaignDAO.class
 response\CampaignList.class
+response\PageInfo.class
 utils\ObjectMapperUtils.class
 utils\ReadFileUtils.class
 service\Service.class
@@ -14,6 +17,7 @@ service\impl\CampaignServiceImpl.class
 dao\impl\AdDAO.class
 utils\APIUtils.class
 dao\AbstractDAO.class
+response\AdGroupResponse.class
 service\AdService.class
 dao\impl\AdGroupDAO.class
 entity\Ad.class

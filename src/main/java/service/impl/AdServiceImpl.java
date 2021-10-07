@@ -35,8 +35,8 @@ public class AdServiceImpl extends AbstractService<Ad, AdResponse> implements Ad
             return mapper.readValue(responseString, AdResponse.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            throw new CustomRuntimeException("Convert to AdResponse failure.");
         }
-        throw new CustomRuntimeException("Convert to AdResponse failure.");
     }
 
     @Override

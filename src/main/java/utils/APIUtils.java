@@ -7,7 +7,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.http.client.utils.URIBuilder;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
