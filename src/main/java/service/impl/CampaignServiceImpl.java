@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.impl.CampaignDAO;
 import entity.Campaign;
 import exception.CustomRuntimeException;
+import org.apache.log4j.Logger;
 import response.CampaignResponse;
 import service.AbstractService;
 import service.CampaignService;
@@ -13,6 +14,9 @@ import utils.ReadFileUtils;
 import java.util.List;
 
 public class CampaignServiceImpl extends AbstractService<Campaign, CampaignResponse> implements CampaignService {
+
+    private static final Logger logger = Logger.getLogger(CampaignServiceImpl.class);
+
     private static CampaignServiceImpl service;
 
     private CampaignServiceImpl() {
@@ -34,7 +38,7 @@ public class CampaignServiceImpl extends AbstractService<Campaign, CampaignRespo
         try {
             return mapper.readValue(responseString, CampaignResponse.class);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error("Convert to CampaignResponse failure.");
             throw new CustomRuntimeException("Convert to CampaignResponse failure.");
         }
     }

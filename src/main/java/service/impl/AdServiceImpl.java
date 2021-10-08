@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.impl.AdDAO;
 import entity.Ad;
 import exception.CustomRuntimeException;
+import org.apache.log4j.Logger;
 import response.AdResponse;
 import service.AbstractService;
 import service.AdService;
@@ -13,6 +14,9 @@ import utils.ReadFileUtils;
 import java.util.List;
 
 public class AdServiceImpl extends AbstractService<Ad, AdResponse> implements AdService {
+
+    private static final Logger logger = Logger.getLogger(AdServiceImpl.class);
+
     private static AdServiceImpl service;
 
     private AdServiceImpl() {
@@ -34,7 +38,7 @@ public class AdServiceImpl extends AbstractService<Ad, AdResponse> implements Ad
         try {
             return mapper.readValue(responseString, AdResponse.class);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error("Convert to AdResponse failure.");
             throw new CustomRuntimeException("Convert to AdResponse failure.");
         }
     }

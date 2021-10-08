@@ -1,11 +1,14 @@
 package dao;
 
+import org.apache.log4j.Logger;
 import utils.HibernateUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public abstract class AbstractDAO<T> {
+
+    private static final Logger logger = Logger.getLogger(AbstractDAO.class);
 
     private final static int batchSize = 10;
 
@@ -20,6 +23,6 @@ public abstract class AbstractDAO<T> {
             }
         }
         em.getTransaction().commit();
-        System.out.printf("Successfully saved %s records%n", ts.size());
+        logger.info(String.format("Successfully saved %s records%n", ts.size()));
     }
 }
